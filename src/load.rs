@@ -71,7 +71,10 @@ pub fn load_secfile_by(sec_file: PathBuf, fmt: SecFileFmt) -> SecResult<SecValue
         };
         info!(target: "exec","  load {}", sec_file.display());
         for (k, v) in dict.iter() {
-            vars_dict.insert(normalize_sec_key(k.as_str()), SecValueType::sec_from(v.clone()));
+            vars_dict.insert(
+                normalize_sec_key(k.as_str()),
+                SecValueType::sec_from(v.clone()),
+            );
         }
     }
     Ok(vars_dict)
