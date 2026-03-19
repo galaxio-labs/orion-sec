@@ -16,6 +16,15 @@ const SEC_VALUE_FILE_NAME: &str = "sec_value.yml";
 const GALAXY_DOT_DIR: &str = ".galaxy";
 const DEFAULT_FALLBACK_DIR: &str = "./";
 
+fn normalize_sec_key(key: &str) -> UpperKey {
+    let upper = key.to_uppercase();
+    if upper.starts_with(SEC_PREFIX) {
+        UpperKey::from(upper)
+    } else {
+        UpperKey::from(format!("{SEC_PREFIX}{upper}"))
+    }
+}
+
 pub fn load_sec_dict() -> SecResult<EnvDict> {
     let space = load_secfile()?;
     let mut dict = EnvDict::new();
@@ -62,10 +71,7 @@ pub fn load_secfile_by(sec_file: PathBuf, fmt: SecFileFmt) -> SecResult<SecValue
         };
         info!(target: "exec","  load {}", sec_file.display());
         for (k, v) in dict.iter() {
-            vars_dict.insert(
-                UpperKey::from(format!("{}{}", SEC_PREFIX, k.as_str().to_uppercase())),
-                SecValueType::sec_from(v.clone()),
-            );
+            vars_dict.insert(normalize_sec_key(k.as_str()), SecValueType::sec_from(v.clone()));
         }
     }
     Ok(vars_dict)
@@ -167,6 +173,19 @@ mod tests {
         let obj = result.unwrap();
         assert!(obj.contains_key(&UpperKey::from("SEC_MIXEDCASE".to_string())));
         assert!(obj.contains_key(&UpperKey::from("SEC_LOWER_CASE".to_string())));
+    }
+
+    #[test]
+    fn test_load_secfile_by_keeps_existing_sec_prefix() {
+        let mut file = NamedTempFile::with_suffix(".toml").unwrap();
+        writeln!(file, "SEC_data_1 = \"value1\"").unwrap();
+
+        let result = load_secfile_by(file.path().to_path_buf(), SecFileFmt::Toml);
+        assert!(result.is_ok());
+
+        let obj = result.unwrap();
+        assert!(obj.contains_key(&UpperKey::from("SEC_DATA_1".to_string())));
+        assert!(!obj.contains_key(&UpperKey::from("SEC_SEC_DATA_1".to_string())));
     }
 
     #[test]
