@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.0] - 2026-04-24
+### Changed
+- 升级 `orion-error` 至 0.7，适配 `DomainReason` trait 与 `compat_traits::ErrorOwe` 导入路径。
+- 升级 `orion-conf` 至 0.6，升级 `orion-variate` 至 0.12，保持依赖版本一致。
+- `.with()` 替换为 `.with_context()`，消除 deprecated 警告。
+
 ## [0.3.2] - 2026-01-08
 ### Added
 - 增加 `SecReason` 与 `OrionSecReason` 的定义，提供 `SensitiveMsg`/`NoPermission`/`Deception`/`UnAuthenticated` 等场景化错误类型。

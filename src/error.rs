@@ -1,5 +1,5 @@
 use derive_more::From;
-use orion_error::{ErrorCode, StructError, UvsReason};
+use orion_error::{DomainReason, ErrorCode, StructError, UvsReason};
 use serde_derive::Serialize;
 use thiserror::Error;
 
@@ -10,6 +10,8 @@ pub enum OrionSecReason {
     #[error("{0}")]
     Uvs(UvsReason),
 }
+
+impl DomainReason for OrionSecReason {}
 
 #[derive(Debug, PartialEq, Serialize, Error)]
 pub enum SecReason {
@@ -43,13 +45,16 @@ impl ErrorCode for OrionSecReason {
 mod tests {
     use super::*;
     use orion_conf::ToStructError;
-    use orion_error::{ErrorConv, ErrorOwe};
+    use orion_error::ErrorConv;
+    use orion_error::compat_traits::ErrorOwe;
 
     #[derive(Debug, PartialEq, Serialize, Error, From)]
     pub enum TargetReason {
         #[error("{0}")]
         Uvs(UvsReason),
     }
+
+    impl DomainReason for TargetReason {}
 
     pub type TargetError = StructError<TargetReason>;
 

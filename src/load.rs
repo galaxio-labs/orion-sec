@@ -2,7 +2,8 @@ use std::{env, path::PathBuf};
 
 use log::{info, warn};
 use orion_conf::{TomlIO, YamlIO};
-use orion_error::{ErrorOwe, ErrorWith};
+use orion_error::ErrorWith;
+use orion_error::compat_traits::ErrorOwe;
 use orion_variate::vars::UpperKey;
 use orion_variate::vars::{EnvDict, ValueDict};
 
@@ -64,10 +65,10 @@ pub fn load_secfile_by(sec_file: PathBuf, fmt: SecFileFmt) -> SecResult<SecValue
         let dict = match fmt {
             SecFileFmt::Yaml => ValueDict::load_yaml(&sec_file)
                 .owe_logic()
-                .with(&sec_file)?,
+                .with_context(&sec_file)?,
             SecFileFmt::Toml => ValueDict::load_toml(&sec_file)
                 .owe_logic()
-                .with(&sec_file)?,
+                .with_context(&sec_file)?,
         };
         info!(target: "exec","  load {}", sec_file.display());
         for (k, v) in dict.iter() {
