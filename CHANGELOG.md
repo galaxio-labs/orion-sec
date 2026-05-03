@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.0] - 2026-05-03
+
+### Changed
+- 升级 `orion-error` 至 0.8：
+  - `UvsReason` → `UnifiedReason`，`Uvs(` → `General(`
+  - 移除 `compat_traits::ErrorOwe`、`owe_logic()` → `.conv_err()`
+- `OrionSecReason`、`SecReason` 使用 `#[derive(OrionError)]` 替代 `thiserror::Error` + 手动 trait 实现
+- `ConfIOReason` 到 `OrionSecReason` 通过 `From` + `.conv_err()` 转换，替代原始的 `map_err` 闭包
+- 依赖版本：`orion-error` 0.8、`orion-conf` 0.7
+
 ## [0.5.0] - 2026-04-24
 ### Changed
 - 升级 `orion-error` 至 0.7，适配 `DomainReason` trait 与 `compat_traits::ErrorOwe` 导入路径。

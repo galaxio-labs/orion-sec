@@ -1,8 +1,6 @@
 use derive_more::From;
-use orion_error::reason::ErrorIdentityProvider;
 use orion_error::{OrionError, StructError, UnifiedReason};
 use serde_derive::Serialize;
-use thiserror::Error;
 
 #[derive(Debug, PartialEq, Serialize, From, OrionError)]
 pub enum OrionSecReason {
@@ -12,42 +10,23 @@ pub enum OrionSecReason {
     General(UnifiedReason),
 }
 
-#[derive(Debug, PartialEq, Serialize, Error)]
+#[derive(Debug, PartialEq, Serialize, OrionError)]
 pub enum SecReason {
-    #[error("sensitive msg {0}")]
+    #[orion_error(identity = "biz.sensitive_msg", code = 101)]
     SensitiveMsg(String),
-    #[error("no permission {0}")]
+    #[orion_error(identity = "biz.no_permission", code = 201)]
     NoPermission(String),
-    #[error("deception {0}")]
+    #[orion_error(identity = "biz.deception", code = 301)]
     Deception(String),
-    #[error("un authenticated {0}")]
+    #[orion_error(identity = "biz.un_authenticated", code = 401)]
     UnAuthenticated(String),
 }
 
-impl ErrorIdentityProvider for SecReason {
-    fn stable_code(&self) -> &'static str {
-        match self {
-            SecReason::SensitiveMsg(_) => "sec.sensitive_msg",
-            SecReason::NoPermission(_) => "sec.no_permission",
-            SecReason::Deception(_) => "sec.deception",
-            SecReason::UnAuthenticated(_) => "sec.un_authenticated",
-        }
-    }
-
-    fn error_category(&self) -> orion_error::reason::ErrorCategory {
-        orion_error::reason::ErrorCategory::Biz
-    }
-}
-
-impl orion_error::reason::DomainReason for SecReason {}
-
-impl orion_error::reason::ErrorCode for SecReason {
-    fn error_code(&self) -> i32 {
-        match self {
-            SecReason::SensitiveMsg(_) => 101,
-            SecReason::NoPermission(_) => 201,
-            SecReason::Deception(_) => 301,
-            SecReason::UnAuthenticated(_) => 401,
+impl From<orion_conf::ConfIOReason> for OrionSecReason {
+    fn from(r: orion_conf::ConfIOReason) -> Self {
+        match r {
+            orion_conf::ConfIOReason::General(u) => OrionSecReason::General(u),
+            _ => OrionSecReason::General(UnifiedReason::system_error()),
         }
     }
 }

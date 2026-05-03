@@ -1,13 +1,13 @@
 use std::{env, path::PathBuf};
 
 use log::{info, warn};
-use orion_conf::{ConfIOReason, TomlIO, YamlIO};
+use orion_conf::{TomlIO, YamlIO};
 use orion_error::prelude::*;
 use orion_variate::vars::UpperKey;
 use orion_variate::vars::{EnvDict, ValueDict};
 
 use crate::{
-    error::{OrionSecReason, SecResult},
+    error::SecResult,
     sec::{NoSecConv, SecFrom, SecValueObj, SecValueType},
 };
 
@@ -63,22 +63,10 @@ pub fn load_secfile_by(sec_file: PathBuf, fmt: SecFileFmt) -> SecResult<SecValue
     if sec_file.exists() {
         let dict = match fmt {
             SecFileFmt::Yaml => ValueDict::load_yaml(&sec_file)
-                .map_err(|e| {
-    let reason = match e.reason() {
-        ConfIOReason::General(r) => OrionSecReason::General(r.clone()),
-        _ => OrionSecReason::system_error(),
-    };
-    StructError::from(reason)
-})
+                .conv_err()
                 .with_context(&sec_file)?,
             SecFileFmt::Toml => ValueDict::load_toml(&sec_file)
-                .map_err(|e| {
-    let reason = match e.reason() {
-        ConfIOReason::General(r) => OrionSecReason::General(r.clone()),
-        _ => OrionSecReason::system_error(),
-    };
-    StructError::from(reason)
-})
+                .conv_err()
                 .with_context(&sec_file)?,
         };
         info!(target: "exec","  load {}", sec_file.display());
