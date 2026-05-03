@@ -15,10 +15,10 @@ categories = ["config"]
 
 
 [dependencies]
-orion-error = "0.7"
-orion_conf = { version = "0.6" ,features = ["yaml","toml"]}
+orion-error = { version = "0.8", features = ["serde", "derive"] }
+orion_conf = { path = "../orion-conf", features = ["yaml","toml"] }
 #orion_variate = { git = "https://github.com/galaxy-sec/orion-variate.git", tag = "v0.9.1" }
-orion-variate = "0.12"
+orion-variate = { path = "../orion-variate" }
 unicase = "2.8"
 getset = "0.1"
 fs_extra = "1.3"
