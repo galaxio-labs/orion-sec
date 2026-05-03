@@ -80,6 +80,6 @@ jobs:
           files: ./lcov.info
           flags: unittests
           name: coverage-${{ github.ref_name }}
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           fail_ci_if_error: ${{ github.event_name == 'push' }}
           verbose: true
