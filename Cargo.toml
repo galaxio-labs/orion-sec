@@ -1,6 +1,6 @@
 [package]
 name = "orion-sec"
-version = "0.6.1" #@gxl:set(version)
+version = "0.6.2" #@gxl:set(version)
 authors = ["wukong <sec-wukong@outlook.com>"]
 edition = "2024"
 description = "Secret-aware helpers for loading and masking Galaxy configuration values."
@@ -37,5 +37,5 @@ once_cell = "1.21"
 
 
 [dev-dependencies]
-rstest = "0.26"
+rstest = "0.27"
 tempfile = "3.24"

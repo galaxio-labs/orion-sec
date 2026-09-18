@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.2] - 2026-09-18
+
+### Changed
+- CI 覆盖率上报由 Codecov 改为 Coveralls，不再依赖会过期的长期 token。
+- `Cargo.toml` 的 `repository` / `homepage` 由 `galaxy-sec` 更正为 `galaxio-labs`；CI 徽章改用非弃用的 `actions/workflows/<file>` 形式。
+- `LICENSE` 版权署名由 `galaxy-sec` 更正为 `galaxio-labs`。
+- README 标题修正为 `# orion-sec`：原 `#orion-sec` 不符合 CommonMark（`#` 后缺空格），在 GitHub 上不会被渲染为标题。
+
+### Added
+- README 补充 crate 常用徽章（下载量、docs.rs、依赖状态、Rust 版本、stars），License 徽章改为指向本地 `./LICENSE`。
+
+### Dependencies
+- dev-dependencies: `rstest` `0.26` → `0.27`
+
 ## [0.6.0] - 2026-05-03
 
 ### Changed
