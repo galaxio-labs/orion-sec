@@ -1,6 +1,6 @@
 #orion-sec
 
-[![CI](https://github.com/galaxy-sec/orion-sec/workflows/CI/badge.svg)](https://github.com/galaxy-sec/orion-sec/actions)
+[![CI](https://github.com/galaxio-labs/orion-sec/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/galaxio-labs/orion-sec/actions)
 [![Coverage Status](https://coveralls.io/repos/github/galaxio-labs/orion-sec/badge.svg?branch=main)](https://coveralls.io/github/galaxio-labs/orion-sec?branch=main)
 [![crates.io](https://img.shields.io/crates/v/orion-sec.svg)](https://crates.io/crates/orion-sec)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

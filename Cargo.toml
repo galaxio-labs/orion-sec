@@ -5,8 +5,8 @@ authors = ["wukong <sec-wukong@outlook.com>"]
 edition = "2024"
 description = "Secret-aware helpers for loading and masking Galaxy configuration values."
 license = "MIT"
-repository = "https://github.com/galaxy-sec/orion-sec"
-homepage = "https://github.com/galaxy-sec/orion-sec"
+repository = "https://github.com/galaxio-labs/orion-sec"
+homepage = "https://github.com/galaxio-labs/orion-sec"
 readme = "README.md"
 keywords = [ "security", "secrets", "config"]
 categories = ["config"]
@@ -17,7 +17,7 @@ categories = ["config"]
 [dependencies]
 orion-error = { version = "0.8", features = ["serde", "derive"] }
 orion_conf = { version = "0.7", features = ["yaml","toml"] }
-#orion_variate = { git = "https://github.com/galaxy-sec/orion-variate.git", tag = "v0.9.1" }
+#orion_variate = { git = "https://github.com/galaxio-labs/orion-variate.git", tag = "v0.9.1" }
 orion-variate =  "0.13"
 unicase = "2.8"
 getset = "0.1"
